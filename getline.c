@@ -1,16 +1,24 @@
 #include "main.h"
 /**
- * 
-*/
+ * main - prints $ and an input
+ * Return: int
+ */
 int main()
 {
     char *buffer;
     size_t buffsize;
-    
-    buffer = malloc(sizeof(size_t));
-    /*size_t characters;*/
+    ssize_t buff_read;
+
+    buffer = NULL;
+    buffsize = 0;
+
     printf("$ ");
-    getline(&buffer, &buffsize, stdin);
-    printf("%s", buffer);
+    buff_read = getline(&buffer, &buffsize, stdin);
+    if (buff_read != -1)
+    {
+        printf("%s", buffer);
+    }
+    
+    free(buffer);
     return (0);
 }

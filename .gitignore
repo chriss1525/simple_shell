@@ -1,3 +1,9 @@
 /* ignore all test files*/
-* test.c
-* main.c
+test.c
+main.c
+a.out
+functions.c
+getline.c
+main.h
+strtok.c
+test.c

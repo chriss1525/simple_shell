@@ -24,7 +24,7 @@ int main(__attribute__((unused))int ac, char **av)
 	my_pid = getpid();
 	my_ppid = getppid();
 
-	printf("%u\n", my_pid);
-	printf("%u\n", my_ppid);
+	printf("%d\n", my_pid);
+	printf("%d\n", my_ppid);
 	return (0);
 }
