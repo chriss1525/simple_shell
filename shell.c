@@ -18,48 +18,53 @@ int main()
 
 	while (1)
 	{
-		/*Display prompt*/
-		printf("> ");
+		/* Display prompt in parent process */
+		if (getpid() == getpgrp())
+			printf("> ");
 
-		/*Wait for user input*/
+		/* Wait for user input */
 		if (fgets(input, BUFFER_SIZE, stdin) == NULL)
 		{
 			printf("\n");
 			exit(0);
 		}
 
-		/*Check for EOF (Ctrl+D)*/
+		/* Check for EOF (Ctrl+D) */
 		if (feof(stdin))
 		{
 			printf("\n");
 			exit(0);
 		}
 
-		/*Trim leading/trailing whitespace*/
+		/* Remove trailing newline */
+		input[strcspn(input, "\n")] = '\0';
+
+		/* Trim leading/trailing whitespace */
 		command = strtok(input, " \n\t\r");
 
-		/*Execute command*/
+		/* Execute command */
 		if (command != NULL)
 		{
 			pid_t pid = fork();
 
 			if (pid == -1)
 			{
-				perror("fork");
+				perror("Error: fork failed");
 				exit(1);
 			}
-			else if (pid == 0)
+
+			if (pid == 0)
 			{
-				/*Child process*/
+				/* Child process */
 				if (execlp(command, command, NULL) == -1)
 				{
 					printf("Error: Command not found.\n");
+					exit(1);
 				}
-				exit(0);
 			}
 			else
 			{
-				/*Parent process*/
+				/* Parent process */
 				int status;
 				waitpid(pid, &status, 0);
 			}
