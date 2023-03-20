@@ -38,7 +38,7 @@ int main()
 		/*Trim leading/trailing whitespace*/
 		command = strtok(input, " \n\t\r");
 
-		// Execute command
+		/*Execute command*/
 		if (command != NULL)
 		{
 			pid_t pid = fork();
@@ -50,7 +50,7 @@ int main()
 			}
 			else if (pid == 0)
 			{
-				// Child process
+				/*Child process*/
 				if (execlp(command, command, NULL) == -1)
 				{
 					printf("Error: Command not found.\n");
@@ -59,7 +59,7 @@ int main()
 			}
 			else
 			{
-				// Parent process
+				/*Parent process*/
 				int status;
 				waitpid(pid, &status, 0);
 			}
