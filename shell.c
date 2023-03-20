@@ -12,20 +12,20 @@ int main()
 
 	while (1)
 	{
-		// Display prompt
+		/*Display prompt*/
 		printf("> ");
 
-		// Wait for user input
+		/*Wait for user input*/
 		if (fgets(input, BUFFER_SIZE, stdin) == NULL)
 		{
 			printf("\n");
 			exit(0);
 		}
 
-		// Trim leading/trailing whitespace
+		/*Trim leading/trailing whitespace*/
 		command = strtok(input, " \n\t\r");
 
-		// Execute command
+		/*Execute command*/
 		if (command != NULL)
 		{
 			if (execlp(command, command, NULL) == -1)
