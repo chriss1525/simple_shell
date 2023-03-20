@@ -16,6 +16,15 @@ int main(void)
 	char input[BUFFER_SIZE];
 	char *command;
 
+	extern char **environ;
+
+	char *my_env[] = {
+		"HOME=/home/user",
+		"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+		NULL};
+
+	environ = my_env;
+
 	while (1)
 	{
 		/* Display prompt in parent process */
@@ -34,6 +43,13 @@ int main(void)
 		{
 			printf("\n");
 			exit(0);
+		}
+
+		/* Strip newline character */
+		char *newline = strchr(input, '\n');
+		if (newline != NULL)
+		{
+			*newline = '\0';
 		}
 
 		/* Remove trailing newline */
@@ -56,7 +72,8 @@ int main(void)
 			if (pid == 0)
 			{
 				/* Child process */
-				if (execlp(command, command, NULL) == -1)
+				char *args[] = {command, NULL};
+				if (execve(command, args, environ) == -1)
 				{
 					printf("Error: Command not found.\n");
 					exit(1);
