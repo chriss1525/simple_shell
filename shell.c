@@ -16,6 +16,8 @@ int main(void)
 {
 	char input[BUFFER_SIZE];
 	char *command;
+	char *newline;
+	char *args[] = {command, NULL};
 
 	extern char **environ;
 
@@ -47,7 +49,7 @@ int main(void)
 		}
 
 		/* Strip newline character */
-		char *newline = strchr(input, '\n');
+		newline = strchr(input, '\n');
 		if (newline != NULL)
 		{
 			*newline = '\0';
@@ -73,7 +75,6 @@ int main(void)
 			if (pid == 0)
 			{
 				/* Child process */
-				char *args[] = {command, NULL};
 				if (execve(command, args, environ) == -1)
 				{
 					_printf("Error: Command not found.\n");
