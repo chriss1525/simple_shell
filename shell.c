@@ -15,18 +15,11 @@
 int main(void)
 {
 	char input[BUFFER_SIZE];
-	char *command;
+	char **args;
 	char *newline;
-	char *args[] = {command, NULL};
-
-	extern char **environ;
-
-	char *my_env[] = {
-		"HOME=/home/user",
-		"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
-		NULL};
-
-	environ = my_env;
+	char *token;
+	int i;
+	pid_t pid;
 
 	while (1)
 	{
@@ -59,23 +52,34 @@ int main(void)
 		input[strcspn(input, "\n")] = '\0';
 
 		/* Trim leading/trailing whitespace */
-		command = strtok(input, " \n\t\r");
+		token = strtok(input, " \n\t\r");
+
+		/* Tokenize input into arguments */
+		args = malloc(sizeof(char *));
+		i = 0;
+		while (token != NULL)
+		{
+			args = realloc(args, sizeof(char *) * (i + 2));
+			args[i] = token;
+			token = strtok(NULL, " \n\t\r");
+			i++;
+		}
+		args[i] = NULL;
 
 		/* Execute command */
-		if (command != NULL)
+		if (args[0] != NULL)
 		{
-			pid_t pid = fork();
+			pid = fork();
 
 			if (pid == -1)
 			{
 				perror("Error: fork failed");
 				exit(1);
 			}
-
-			if (pid == 0)
+			else if (pid == 0)
 			{
 				/* Child process */
-				if (execve(command, args, environ) == -1)
+				if (execvp(args[0], args) == -1)
 				{
 					_printf("Error: Command not found.\n");
 					exit(1);
@@ -87,8 +91,11 @@ int main(void)
 				int status;
 				waitpid(pid, &status, 0);
 			}
+
+			free(args);
+			args = NULL;
 		}
 	}
 
-	return (0);
+	return 0;
 }
