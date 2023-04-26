@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
+#include "main.h"
 
 /**
  * main - takes in command from stdin and executes the command
@@ -29,19 +30,19 @@ int main(void)
 	{
 		/* Display prompt in parent process */
 		if (getpid() == getpgrp())
-			printf("> ");
+			_printf("> ");
 
 		/* Wait for user input */
 		if (fgets(input, BUFFER_SIZE, stdin) == NULL)
 		{
-			printf("\n");
+			_printf("\n");
 			exit(0);
 		}
 
 		/* Check for EOF (Ctrl+D) */
 		if (feof(stdin))
 		{
-			printf("\n");
+			_printf("\n");
 			exit(0);
 		}
 
@@ -75,7 +76,7 @@ int main(void)
 				char *args[] = {command, NULL};
 				if (execve(command, args, environ) == -1)
 				{
-					printf("Error: Command not found.\n");
+					_printf("Error: Command not found.\n");
 					exit(1);
 				}
 			}
