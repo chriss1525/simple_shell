@@ -4,12 +4,13 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include "stdarg.h"
+#include "signal.h"
 
 /**
  * struct function_s - structure holding an identifier and a function
  * @identifier: character identifying action
  * @print_function: function excecuted when identifier is identified
-*/
+ */
 
 typedef struct function_s
 {
@@ -25,5 +26,6 @@ int print_int(int i);
 int print_string(va_list ap);
 int int_to_binary(int num);
 int int_to_bin(va_list ap);
+void sigint_handler(int sig);
 
 #endif /*_printf*/
