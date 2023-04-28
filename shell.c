@@ -20,21 +20,26 @@ int main(void)
     char *token;
     int i;
     pid_t pid;
+    /*int len;*/
 
     while (1)
     {
         /* Display prompt in parent process */
-        if (getpid() == getpgrp()) {
+        if (getpid() == getpgrp())
+        {
             write(STDOUT_FILENO, "> ", 2);
             fflush(stdout);
         }
 
         /* Wait for user input */
-        if (fgets(input, BUFFER_SIZE, stdin) == NULL)
+        if (fgets(input, BUFFER_SIZE, stdin) == NULL || input[0] == '\n')
         {
-            write(STDOUT_FILENO, "\n", 2);
             exit(0);
+            continue;
         }
+
+        /*Remove newline character from input*/
+        input[strcspn(input, "\n")] = '\0';
 
         /* Check for EOF (Ctrl+D) */
         if (feof(stdin))
@@ -43,8 +48,14 @@ int main(void)
             exit(0);
         }
 
-        /* Strip newline character 
-        newline = strchr(input, '\n');
+        /* Strip newline character*/
+
+        /*len = strcspn(input, "\n");
+        if (len < BUFFER_SIZE)
+        {
+            memset(input + len, '\0', 1);
+        }*/
+        /*newline = strchr(input, '\n');
         if (newline != NULL)
         {
             *newline = '\0';
@@ -52,7 +63,6 @@ int main(void)
 
         /* Remove trailing newline */
         /*input[strcspn(input, "\n")] = '\0';*/
-
 
         /* Tokenize input into arguments */
         token = strtok(input, " \n\t\r");
@@ -69,7 +79,7 @@ int main(void)
         args[i] = NULL;
 
         /* Execute command */
-        if (args[0] != NULL)
+        if (args[0] != NULL && args[0][0] != '\0')
         {
             pid = fork();
 
@@ -97,7 +107,7 @@ int main(void)
             free(args);
             /*args = NULL;*/
         }
-        
+
         /* Check if last character of input is newline character */
         /*if (input[strlen(input) - 1] == '\n') {
             _printf("\b");
