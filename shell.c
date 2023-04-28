@@ -49,7 +49,7 @@ int main(void)
 		}
 
 		/* Tokenize input into arguments */
-		token = strtok(input, " \n\t\r");
+		token = strtok(input, " \t\n\r\f\v");
 
 		args = malloc(sizeof(char *));
 		i = 0;
@@ -57,7 +57,7 @@ int main(void)
 		{
 			args = realloc(args, sizeof(char *) * (i + 2));
 			args[i] = token;
-			token = strtok(NULL, " \n\t\r");
+			token = strtok(input, " \t\n\r\f\v");
 			i++;
 		}
 		args[i] = NULL;
