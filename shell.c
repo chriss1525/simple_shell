@@ -77,7 +77,7 @@ int main(void)
 			if (pid == -1)
 			{
 				perror("Error: fork failed");
-				exit(1);
+				exit(0);
 			}
 			else if (pid == 0)
 			{
@@ -85,7 +85,7 @@ int main(void)
 				if (execvp(args[0], args) == -1)
 				{
 					_printf("Error: Command not found.\n");
-					exit(1);
+					exit(0);
 				}
 			}
 			else
