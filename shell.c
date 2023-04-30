@@ -51,12 +51,8 @@ int main(void)
 		/* Check for exit command */
 		if (strcmp(input, "exit") == 0 || strcmp(input, "quit") == 0 || input[0] == '\n')
 		{
-				int status = 0;
-				if (args[1] != NULL)
-				{
-					status = atoi(args[1]);
-				}
-				exit(status);
+			exit(0);
+			continue;
 		}
 
 		/* Tokenize input into arguments */
