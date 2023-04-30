@@ -49,9 +49,10 @@ int main(void)
 		}
 
 		/* Check for exit command */
-		if (strcmp(input, "exit") == 0 || strcmp(input, "quit") == 0)
+		if (strcmp(input, "exit") == 0 || strcmp(input, "quit") == 0 || input[0] == '\n')
 		{
 			exit(0);
+			continue;
 		}
 
 		/* Tokenize input into arguments */
