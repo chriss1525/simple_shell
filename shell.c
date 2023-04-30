@@ -10,14 +10,12 @@
  * Return: 0 (success)
  */
 
-#define BUFFER_SIZE 20
-
 int main(void)
 {
 	char input[BUFFER_SIZE];
 	char **args;
-	char *token;
-	int i;
+	/*char *token;
+	int i;*/
 	pid_t pid;
 
 	signal(SIGKILL, sigint_handler);
@@ -55,19 +53,21 @@ int main(void)
 			continue;
 		}
 
-		/* Tokenize input into arguments */
-		token = strtok(input, " \n\t\r");
-
-		args = malloc(sizeof(char *));
-		i = 0;
-		while (token != NULL)
+		/* Check for cd command */
+		if (strncmp(input, "cd", 2) == 0)
 		{
-			args = realloc(args, sizeof(char *) * (i + 2));
-			args[i] = token;
-			token = strtok(NULL, " \n\t\r");
-			i++;
+			/* Tokenize input into arguments */
+			args = parse_input(input);
+
+			/* Handle cd command */
+			cd(args[1]);
+
+			free(args);
+			continue;
 		}
-		args[i] = NULL;
+
+		/* Tokenize input into arguments */
+		args = parse_input(input);
 
 		/* Execute command */
 		if (args[0] != NULL && args[0][0] != '\0')
@@ -100,4 +100,23 @@ int main(void)
 	}
 
 	return (0);
+}
+
+/**
+ *
+ */
+#define MAX_ARGS 64
+char **parse_input(char *input)
+{
+	char **args = malloc(MAX_ARGS * sizeof(char *));
+	char *token = strtok(input, " \n\t\r");
+	int i = 0;
+	while (token != NULL)
+	{
+		args[i++] = token;
+		token = strtok(NULL, " \n\t\r");
+		;
+	}
+	args[i] = NULL;
+	return args;
 }
