@@ -1,4 +1,6 @@
 #include "main.h"
+#include <libgen.h>
+
 /**
  * cd - changes directory
  * @dir: directory
@@ -6,40 +8,40 @@
  */
 void cd(char *dir)
 {
-#define MAX_PATH_LEN 4096
-    char path[MAX_PATH_LEN];
-    char cwd[BUFFER_SIZE];
-    char *home_dir = getenv("HOME");
-
-    if (dir == NULL || strcmp(dir, "~") == 0)
+    char cwd[1024];
+    char *directname;
+    char *dirpath;
+    if (getcwd(cwd, sizeof(cwd)) == NULL)
     {
-        dir = home_dir;
-    }
-    else if (strcmp(dir, "-") == 0)
-    {
-        dir = getenv("OLDPWD");
-    }
-
-    if (getcwd(path, MAX_PATH_LEN) == NULL)
-    {
-        perror("Error: getcwd failed");
+        perror("getcwd() error");
         return;
     }
     if (chdir(dir) == -1)
     {
-        perror("Error: chdir failed");
+        perror("chdir() error");
         return;
     }
-
+    directname = strdup(dir);
+    dirpath = directname;
+    if (directname != NULL)
+    {
+        dirpath = dirname(directname);
+        if (chdir(dirpath) == -1)
+        {
+            perror("chdir() error");
+            free(directname);
+            return;
+        }
+        free(directname);
+    }
     if (setenv("OLDPWD", cwd, 1) == -1)
     {
-        perror("Error: setenv failed");
+        perror("setenv() error");
         return;
     }
-
-    if (setenv("PWD", dir, 1) == -1)
+    if (setenv("PWD", getcwd(cwd, sizeof(cwd)), 1) == -1)
     {
-        perror("Error: setenv failed");
+        perror("setenv() error");
         return;
     }
 }
