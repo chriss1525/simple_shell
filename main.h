@@ -27,5 +27,6 @@ int print_string(va_list ap);
 int int_to_binary(int num);
 int int_to_bin(va_list ap);
 void sigint_handler(int sig);
+void handle_special_chars(char *input);
 
 #endif /*_printf*/

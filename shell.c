@@ -48,13 +48,6 @@ int main(void)
 			exit(0);
 		}
 
-		/* Check for exit command */
-		if (strcmp(input, "exit") == 0 || strcmp(input, "quit") == 0 || input[0] == '\n')
-		{
-			exit(0);
-			continue;
-		}
-
 		/* Tokenize input into arguments */
 		token = strtok(input, " \n\t\r");
 
@@ -72,6 +65,15 @@ int main(void)
 		/* Execute command */
 		if (args[0] != NULL && args[0][0] != '\0')
 		{
+			if (strcmp(args[0], "exit") == 0 || strcmp(args[0], "quit") == 0)
+			{
+				int status = 0;
+				if (args[1] != NULL)
+				{
+					status = atoi(args[1]);
+				}
+				exit(status);
+			}
 			pid = fork();
 
 			if (pid == -1)
