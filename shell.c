@@ -48,6 +48,12 @@ int main(void)
 			exit(0);
 		}
 
+		/* Check for exit command */
+		if (strcmp(input, "exit") == 0 || strcmp(input, "quit") == 0)
+		{
+			exit(0);
+		}
+
 		/* Tokenize input into arguments */
 		token = strtok(input, " \n\t\r");
 
