@@ -9,7 +9,6 @@ To get started with the Simple Shell, you'll need to have a C compiler installed
 Once you have GCC installed, you can clone this repository to your local machine:
 
 ```bash
-Copy code
 git clone https://github.com/chriss1525/simple_shell.git
 ```
 
@@ -24,7 +23,6 @@ gcc *.c
 This will compile the shell program. You can then run the shell by entering the following command:
 
 ```bash
-Copy code
 ./hsh
 ```
 
@@ -33,7 +31,6 @@ You should see a command prompt (>) indicating that the shell is ready to accept
 The Simple Shell also supports I/O redirection using the > and < symbols. For example, you can redirect the output of a command to a file like this:
 
 ```bash
-Copy code
 ls > files.txt
 ```
 

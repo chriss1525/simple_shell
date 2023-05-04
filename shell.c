@@ -14,8 +14,6 @@ int main(void)
 {
 	char input[BUFFER_SIZE];
 	char **args;
-	/*char *token;
-	int i;*/
 	pid_t pid;
 
 	signal(SIGKILL, sigint_handler);
@@ -103,7 +101,9 @@ int main(void)
 }
 
 /**
- *
+ * parse_input - breaks arguments to tokens
+ * @input: user input
+ * Return: arguments passed
  */
 #define MAX_ARGS 64
 char **parse_input(char *input)
@@ -111,6 +111,7 @@ char **parse_input(char *input)
 	char **args = malloc(MAX_ARGS * sizeof(char *));
 	char *token = strtok(input, " \n\t\r");
 	int i = 0;
+
 	while (token != NULL)
 	{
 		args[i++] = token;
@@ -118,5 +119,5 @@ char **parse_input(char *input)
 		;
 	}
 	args[i] = NULL;
-	return args;
+	return (args);
 }
