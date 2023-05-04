@@ -38,5 +38,7 @@ This will create a file called files.txt and write the output of the ls command 
 
 To exit the Simple Shell, simply press ctrl + C.
 
-Contributing
+### Contributing
+
+
 If you'd like to contribute to this project, feel free to fork the repository and submit a pull request.
